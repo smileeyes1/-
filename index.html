@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مغامرة السوق الجميل</title>
+  <style>
+    body {
+      font-family: Arial, Tahoma, sans-serif;
+      background: linear-gradient(to bottom, #fffdd0, #ffe4b5);
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      direction: rtl;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    }
+
+    h1 {
+      color: #c85a17;
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    #character {
+      font-size: 32px;
+      margin: 20px 0;
+      color: #2e8b57;
+    }
+
+    #money-box {
+      font-size: 34px;
+      background: #ffd700;
+      padding: 18px;
+      border-radius: 18px;
+      margin: 25px auto;
+      width: fit-content;
+      font-weight: bold;
+    }
+
+    #question {
+      font-size: 28px;
+      margin: 35px 0;
+      min-height: 70px;
+      line-height: 1.4;
+    }
+
+    #items {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin: 25px 0;
+    }
+
+    .item {
+      text-align: center;
+      font-size: 22px;
+    }
+
+    .item img {
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+    }
+
+    input {
+      font-size: 32px;
+      width: 160px;
+      padding: 12px;
+      margin: 20px 10px;
+      text-align: center;
+      border: 2px solid #4682b4;
+      border-radius: 12px;
+    }
+
+    button {
+      font-size: 26px;
+      padding: 16px 40px;
+      margin: 12px;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      color: white;
+    }
+
+    #checkBtn {
+      background: #32cd32;
+    }
+
+    #checkBtn:hover {
+      background: #228b22;
+    }
+
+    #nextBtn {
+      background: #1e90ff;
+      display: none;
+    }
+
+    #nextBtn:hover {
+      background: #1873d1;
+    }
+
+    #result {
+      font-size: 30px;
+      font-weight: bold;
+      margin: 25px 0;
+      min-height: 50px;
+    }
+
+    .green { color: #006400; }
+    .red   { color: #8b0000; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>مغامرة السوق الجميل</h1>
+    <div id="character">يا بطل! ساعدني نشتري اغراض الحلوة 🛒🍎</div>
+    
+    <div id="money-box">
+      فلوسي: <span id="money">٥٠</span> قرش
+    </div>
+
+    <div id="question"></div>
+
+    <div id="items"></div>
+
+    <input type="number" id="answer" placeholder="اكتب الجواب" min="0">
+    <br>
+    <button id="checkBtn" onclick="checkAnswer()">تأكيد</button>
+    <button id="nextBtn" onclick="nextQuestion()">السؤال التالي →</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    let money = ٥٠;
+    let currentAnswer = ٠;
+
+    const itemsData = [
+      {name: "موز",     price: ١٢, img: "https://img.icons8.com/emoji/96/banana-emoji.png"},
+      {name: "تفاح",    price: ١٥, img: "https://img.icons8.com/emoji/96/red-apple-emoji.png"},
+      {name: "برتقال",  price: ١٠, img: "https://img.icons8.com/emoji/96/tangerine-emoji.png"},
+      {name: "حلوى",    price: ٨,  img: "https://img.icons8.com/emoji/96/candy-emoji.png"},
+      {name: "كرة",     price: ٢٥, img: "https://img.icons8.com/emoji/96/soccer-ball-emoji.png"},
+      {name: "دجاجة",   price: ٢٨, img: "https://img.icons8.com/emoji/96/chicken-emoji.png"}
+    ];
+
+    function updateMoney() {
+      document.getElementById("money").innerText = money;
+    }
+
+    function generateQuestion() {
+      document.getElementById("result").innerText = "";
+      document.getElementById("result").className = "";
+      document.getElementById("answer").value = "";
+      document.getElementById("nextBtn").style.display = "none";
+
+      let item1 = itemsData[Math.floor(Math.random() * itemsData.length)];
+      let item2 = itemsData[Math.floor(Math.random() * itemsData.length)];
+
+      while (item1 === item2) {
+        item2 = itemsData[Math.floor(Math.random() * itemsData.length)];
+      }
+
+      currentAnswer = item1.price + item2.price;
+
+      document.getElementById("question").innerHTML = 
+        `اشتريت ${item1.name} بـ \( {item1.price} قرش<br>و \){item2.name} بـ ${item2.price} قرش<br>كم تدفع للبائع؟`;
+
+      let itemsDiv = document.getElementById("items");
+      itemsDiv.innerHTML = "";
+
+      let div1 = document.createElement("div");
+      div1.className = "item";
+      div1.innerHTML = `<img src="\( {item1.img}"><br> \){item1.name} ${item1.price}`;
+      itemsDiv.appendChild(div1);
+
+      let div2 = document.createElement("div");
+      div2.className = "item";
+      div2.innerHTML = `<img src="\( {item2.img}"><br> \){item2.name} ${item2.price}`;
+      itemsDiv.appendChild(div2);
+    }
+
+    function checkAnswer() {
+      let userAnswer = parseInt(document.getElementById("answer").value);
+
+      if (isNaN(userAnswer)) {
+        document.getElementById("result").innerText = "اكتب رقم يا بطل";
+        document.getElementById("result").className = "red";
+        return;
+      }
+
+      if (userAnswer === currentAnswer) {
+        document.getElementById("result").innerText = "صحيح! بارك الله فيك يا بطل 🎉";
+        document.getElementById("result").className = "green";
+
+        money -= currentAnswer;
+        if (money < ٠) money = ٠;
+        updateMoney();
+
+        if (money <= ٠) {
+          document.getElementById("question").innerHTML = "مبروك يا بطل! خلصت الفلوس وحصلت على جائزة كبيرة 🎁🍦";
+          document.getElementById("answer").style.display = "none";
+          document.getElementById("checkBtn").style.display = "none";
+          document.getElementById("nextBtn").style.display = "none";
+        } else {
+          document.getElementById("nextBtn").style.display = "inline-block";
+        }
+      } else {
+        document.getElementById("result").innerText = "حاول مرة ثانية يا بطل 💪";
+        document.getElementById("result").className = "red";
+      }
+    }
+
+    function nextQuestion() {
+      if (money > ٠) generateQuestion();
+    }
+
+    // بداية اللعبة
+    updateMoney();
+    generateQuestion();
+  </script>
+
+</body>
+</html>
