@@ -36,19 +36,19 @@
     #items {
       display: flex;
       justify-content: center;
-      gap: 50px;
+      gap: 60px;
       flex-wrap: wrap;
       margin: 30px 0;
     }
     .item {
       text-align: center;
       font-size: 26px;
-      min-width: 120px;
+      min-width: 140px;
     }
-    .item span { font-size: 60px; }
+    .item span { font-size: 70px; }
     input {
       font-size: 32px;
-      width: 160px;
+      width: 180px;
       padding: 12px;
       margin: 20px 10px;
       text-align: center;
@@ -57,8 +57,8 @@
     }
     button {
       font-size: 26px;
-      padding: 16px 40px;
-      margin: 12px;
+      padding: 16px 50px;
+      margin: 15px;
       border: none;
       border-radius: 16px;
       cursor: pointer;
@@ -86,7 +86,7 @@
     <div id="question"></div>
     <div id="items"></div>
 
-    <input type="number" id="answer" placeholder="اكتب الجواب" min="0">
+    <input type="number" id="answer" placeholder="اكتب الجواب هنا" min="0">
     <br>
     <button id="checkBtn" onclick="checkAnswer()">تأكيد</button>
     <button id="nextBtn" onclick="nextQuestion()">السؤال التالي →</button>
@@ -123,7 +123,9 @@
 
       let idx1 = Math.floor(Math.random() * itemsData.length);
       let idx2 = Math.floor(Math.random() * itemsData.length);
-      while (idx2 === idx1) idx2 = Math.floor(Math.random() * itemsData.length);
+      while (idx2 === idx1) {
+        idx2 = Math.floor(Math.random() * itemsData.length);
+      }
 
       let item1 = itemsData[idx1];
       let item2 = itemsData[idx2];
@@ -140,12 +142,12 @@
 
       let div1 = document.createElement("div");
       div1.className = "item";
-      div1.innerHTML = `<span>\( {item1.emoji}</span><br> \){item1.name} ${toArabicNum(item1.price)}`;
+      div1.innerHTML = `<span>\( {item1.emoji}</span><br> \){item1.name}<br>${toArabicNum(item1.price)}`;
       itemsDiv.appendChild(div1);
 
       let div2 = document.createElement("div");
       div2.className = "item";
-      div2.innerHTML = `<span>\( {item2.emoji}</span><br> \){item2.name} ${toArabicNum(item2.price)}`;
+      div2.innerHTML = `<span>\( {item2.emoji}</span><br> \){item2.name}<br>${toArabicNum(item2.price)}`;
       itemsDiv.appendChild(div2);
     }
 
@@ -185,7 +187,6 @@
       if (money > 0) generateQuestion();
     }
 
-    // بداية اللعبة
     updateMoneyDisplay();
     generateQuestion();
   </script>
