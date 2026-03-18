@@ -1,104 +1,253 @@
+ 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مغامرة السوق الجميل</title>
+
 <style>
-body{font-family:Arial,Tahoma,sans-serif;background:linear-gradient(to bottom,#fffdd0,#ffe4b5);text-align:center;margin:0;padding:20px;direction:rtl}
-.container{max-width:720px;margin:auto;background:white;padding:30px;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,0.12)}
-h1{color:#c85a17;font-size:42px;margin-bottom:10px}
-#character{font-size:32px;margin:20px 0;color:#2e8b57}
-#money-box{font-size:34px;background:#ffd700;padding:18px;border-radius:18px;margin:25px auto;width:fit-content;font-weight:bold}
-#question{font-size:28px;margin:35px 0;min-height:70px;line-height:1.4}
-#items{display:flex;justify-content:center;gap:60px;flex-wrap:wrap;margin:30px 0}
-.item{text-align:center;font-size:26px;min-width:140px}
-.item span{font-size:70px}
-input{font-size:32px;width:180px;padding:12px;margin:20px 10px;text-align:center;border:2px solid #4682b4;border-radius:12px}
-button{font-size:26px;padding:16px 50px;margin:15px;border:none;border-radius:16px;cursor:pointer;color:white}
-#checkBtn{background:#32cd32}
-#checkBtn:hover{background:#228b22}
-#nextBtn{background:#1e90ff;display:none}
-#nextBtn:hover{background:#1873d1}
-#result{font-size:30px;font-weight:bold;margin:25px 0;min-height:50px}
-.green{color:#006400}
-.red{color:#8b0000}
+body{
+  font-family: Arial, Tahoma, sans-serif;
+  background: linear-gradient(to bottom, #fffdd0, #ffe4b5);
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  direction: rtl;
+}
+
+.container{
+  max-width: 720px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+h1{
+  color: #c85a17;
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+#character{
+  font-size: 32px;
+  margin: 20px 0;
+  color: #2e8b57;
+}
+
+#money-box{
+  font-size: 34px;
+  background: #ffd700;
+  padding: 18px;
+  border-radius: 18px;
+  margin: 25px auto;
+  width: fit-content;
+  font-weight: bold;
+}
+
+#question{
+  font-size: 28px;
+  margin: 35px 0;
+  min-height: 70px;
+  line-height: 1.4;
+}
+
+#items{
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+  margin: 30px 0;
+}
+
+.item{
+  text-align: center;
+  font-size: 26px;
+  min-width: 140px;
+}
+
+.item span{
+  font-size: 70px;
+}
+
+input{
+  font-size: 32px;
+  width: 180px;
+  padding: 12px;
+  margin: 20px 10px;
+  text-align: center;
+  border: 2px solid #4682b4;
+  border-radius: 12px;
+}
+
+button{
+  font-size: 26px;
+  padding: 16px 50px;
+  margin: 15px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  color: white;
+}
+
+#checkBtn{ background: #32cd32; }
+#checkBtn:hover{ background: #228b22; }
+
+#nextBtn{
+  background: #1e90ff;
+  display: none;
+}
+#nextBtn:hover{ background: #1873d1; }
+
+#result{
+  font-size: 30px;
+  font-weight: bold;
+  margin: 25px 0;
+  min-height: 50px;
+}
+
+.green{ color: #006400; }
+.red{ color: #8b0000; }
 </style>
 </head>
+
 <body>
 
 <div class="container">
-<h1>مغامرة السوق الجميل</h1>
-<div id="character">يا بطل ساعدني نشتري اغراض الحلوة 🛒🍎</div>
+  <h1>مغامرة السوق الجميل</h1>
 
-<div id="money-box">
-فلوسي: <span id="moneyDisplay">٥٠</span> قرش
-</div>
+  <div id="character">
+    يا بطل ساعدني نشتري أغراض حلوة 🛒🍎
+  </div>
 
-<div id="question"></div>
-<div id="items"></div>
+  <div id="money-box">
+    فلوسي: <span id="moneyDisplay">٥٠</span> قرش
+  </div>
 
-<input type="number" id="answer" placeholder="اكتب الجواب هنا" min="0">
-<br>
-<button id="checkBtn" onclick="checkAnswer()">تأكيد</button>
-<button id="nextBtn" onclick="nextQuestion()">السؤال التالي →</button>
+  <div id="question"></div>
+  <div id="items"></div>
 
-<div id="result"></div>
+  <input type="number" id="answer" placeholder="اكتب الجواب هنا" min="٠">
+
+  <br>
+
+  <button id="checkBtn" onclick="checkAnswer()">تأكيد</button>
+  <button id="nextBtn" onclick="nextQuestion()">السؤال التالي ←</button>
+
+  <div id="result"></div>
 </div>
 
 <script>
-let money=50;let currentAnswer=0;
-function toArabicNum(n){const d=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];return n.toString().split('').map(x=>d[parseInt(x)]).join('')}
-const itemsData=[
-{name:"موز",emoji:"🍌",price:12},
-{name:"تفاح",emoji:"🍎",price:15},
-{name:"برتقال",emoji:"🍊",price:10},
-{name:"حلوى",emoji:"🍬",price:8},
-{name:"كرة",emoji:"⚽",price:25}
-];
-function updateMoneyDisplay(){document.getElementById("moneyDisplay").innerText=toArabicNum(money)}
-function generateQuestion(){
-document.getElementById("result").innerText="";
-document.getElementById("result").className="";
-document.getElementById("answer").value="";
-document.getElementById("nextBtn").style.display="none";
-let i1=Math.floor(Math.random()*itemsData.length);
-let i2=Math.floor(Math.random()*itemsData.length);
-while(i2===i1)i2=Math.floor(Math.random()*itemsData.length);
-let it1=itemsData[i1];
-let it2=itemsData[i2];
-currentAnswer=it1.price+it2.price;
-document.getElementById("question").innerHTML=`اشتريت ${it1.name} بـ ${toArabicNum(it1.price)} قرش<br>و ${it2.name} بـ ${toArabicNum(it2.price)} قرش<br>كم تدفع للبائع؟`;
-let div=document.getElementById("items");div.innerHTML="";
-let d1=document.createElement("div");d1.className="item";
-d1.innerHTML=`<span>\( {it1.emoji}</span><br> \){it1.name}<br>${toArabicNum(it1.price)}`;
-div.appendChild(d1);
-let d2=document.createElement("div");d2.className="item";
-d2.innerHTML=`<span>\( {it2.emoji}</span><br> \){it2.name}<br>${toArabicNum(it2.price)}`;
-div.appendChild(d2);
+let money = 50;
+let currentAnswer = 0;
+
+function toArabicNum(n){
+  const d = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+  return n.toString().split('').map(x => d[parseInt(x)]).join('');
 }
+
+const itemsData = [
+  { name: "موز",     emoji: "🍌", price: 12 },
+  { name: "تفاح",   emoji: "🍎", price: 15 },
+  { name: "برتقال", emoji: "🍊", price: 10 },
+  { name: "حلوى",   emoji: "🍬", price: 8  },
+  { name: "كرة",    emoji: "⚽", price: 25 }
+];
+
+function updateMoneyDisplay(){
+  document.getElementById("moneyDisplay").innerText = toArabicNum(money);
+}
+
+function generateQuestion(){
+  document.getElementById("result").innerText = "";
+  document.getElementById("result").className = "";
+  document.getElementById("answer").value = "";
+  document.getElementById("nextBtn").style.display = "none";
+
+  let i1 = Math.floor(Math.random() * itemsData.length);
+  let i2 = Math.floor(Math.random() * itemsData.length);
+  while(i2 === i1){
+    i2 = Math.floor(Math.random() * itemsData.length);
+  }
+
+  let it1 = itemsData[i1];
+  let it2 = itemsData[i2];
+
+  currentAnswer = it1.price + it2.price;
+
+  document.getElementById("question").innerHTML = `
+    اشتريت ${it1.name} بـ ${toArabicNum(it1.price)} قرش<br>
+    و ${it2.name} بـ ${toArabicNum(it2.price)} قرش<br>
+    كم تدفع للبائع؟
+  `;
+
+  let itemsDiv = document.getElementById("items");
+  itemsDiv.innerHTML = "";
+
+  let d1 = document.createElement("div");
+  d1.className = "item";
+  d1.innerHTML = `
+    <span>${it1.emoji}</span><br>
+    ${it1.name}<br>
+    ${toArabicNum(it1.price)}
+  `;
+  itemsDiv.appendChild(d1);
+
+  let d2 = document.createElement("div");
+  d2.className = "item";
+  d2.innerHTML = `
+    <span>${it2.emoji}</span><br>
+    ${it2.name}<br>
+    ${toArabicNum(it2.price)}
+  `;
+  itemsDiv.appendChild(d2);
+}
+
 function checkAnswer(){
-let v=document.getElementById("answer").value.trim();
-let a=parseInt(v);
-if(v===""||isNaN(a)){
-document.getElementById("result").innerText="اكتب رقم يا بطل";
-document.getElementById("result").className="red";return}
-if(a===currentAnswer){
-document.getElementById("result").innerText="صحيح بارك الله فيك يا بطل 🎉";
-document.getElementById("result").className="green";
-money-=currentAnswer;if(money<0)money=0;
+  let v = document.getElementById("answer").value.trim();
+  let a = parseInt(v);
+
+  if(v === "" || isNaN(a)){
+    document.getElementById("result").innerText = "اكتب رقم يا بطل";
+    document.getElementById("result").className = "red";
+    return;
+  }
+
+  if(a === currentAnswer){
+    document.getElementById("result").innerText = "صحيح بارك الله فيك يا بطل 🎉";
+    document.getElementById("result").className = "green";
+
+    money -= currentAnswer;
+    if(money < 0) money = 0;
+
+    updateMoneyDisplay();
+
+    if(money <= 0){
+      document.getElementById("question").innerHTML =
+        "مبروك يا بطل 🎁🍦 انتهت الفلوس!";
+      document.getElementById("answer").style.display = "none";
+      document.getElementById("checkBtn").style.display = "none";
+      document.getElementById("nextBtn").style.display = "none";
+    }else{
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }
+  }else{
+    document.getElementById("result").innerText = "حاول مرة ثانية يا بطل 💪";
+    document.getElementById("result").className = "red";
+  }
+}
+
+function nextQuestion(){
+  if(money > 0){
+    generateQuestion();
+  }
+}
+
 updateMoneyDisplay();
-if(money<=0){
-document.getElementById("question").innerHTML="مبروك يا بطل خلصت الفلوس وحصلت على جائزة كبيرة 🎁🍦";
-document.getElementById("answer").style.display="none";
-document.getElementById("checkBtn").style.display="none";
-document.getElementById("nextBtn").style.display="none"}
-else{document.getElementById("nextBtn").style.display="inline-block"}}
-else{
-document.getElementById("result").innerText="حاول مرة ثانية يا بطل 💪";
-document.getElementById("result").className="red"}}
-function nextQuestion(){if(money>0)generateQuestion()}
-updateMoneyDisplay();generateQuestion();
+generateQuestion();
 </script>
+
 </body>
 </html>
