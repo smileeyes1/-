@@ -41,7 +41,7 @@
       margin: 25px 0;
     }
     .item { text-align: center; font-size: 22px; }
-    .item img { width: 110px; height: 110px; object-fit: contain; }
+    .item img { width: 140px; height: 140px; object-fit: contain; }
     input {
       font-size: 32px;
       width: 160px;
@@ -91,22 +91,20 @@
   </div>
 
   <script>
-    // الارقام الحقيقية للحساب (عادية)
     let money = 50;
     let currentAnswer = 0;
 
-    // دالة تحول الرقم العادي الى عربي شرقي للعرض
     function toArabicNum(num) {
       const arabicDigits = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
       return num.toString().split('').map(d => arabicDigits[parseInt(d)]).join('');
     }
 
     const itemsData = [
-      {name: "موز",     price: 12, img: "https://img.icons8.com/emoji/96/banana-emoji.png"},
-      {name: "تفاح",    price: 15, img: "https://img.icons8.com/emoji/96/red-apple-emoji.png"},
-      {name: "برتقال",  price: 10, img: "https://img.icons8.com/emoji/96/tangerine-emoji.png"},
-      {name: "حلوى",    price: 8,  img: "https://img.icons8.com/emoji/96/candy-emoji.png"},
-      {name: "كرة",     price: 25, img: "https://img.icons8.com/emoji/96/soccer-ball-emoji.png"}
+      {name: "موز",     price: 12, img: "https://cdn.splashmath.com/curriculum_uploads/images/playables/picture_perfect_fruits_banana.png"},
+      {name: "تفاح",    price: 15, img: "https://thumbs.dreamstime.com/b/cut-glue-red-apple-vector-illustration-paper-game-applique-children-s-creativity-activity-learning-out-262690193.jpg"},
+      {name: "برتقال",  price: 10, img: "https://thumbs.dreamstime.com/b/cartoon-fruits-funny-drawn-tangerine-contour-lines-isolated-transparent-background-simple-clip-art-printable-coloring-332424472.jpg"},
+      {name: "حلوى",    price: 8,  img: "https://thumbs.dreamstime.com/b/how-many-sweets-counting-cartoon-game-illustration-educational-children-candy-100711428.jpg"},
+      {name: "كرة",     price: 25, img: "https://m.media-amazon.com/images/I/6117wwdUSsL._AC_UF1000,1000_QL80_.jpg"}
     ];
 
     function updateMoneyDisplay() {
@@ -183,7 +181,6 @@
       if (money > 0) generateQuestion();
     }
 
-    // بداية اللعبة
     updateMoneyDisplay();
     generateQuestion();
   </script>
