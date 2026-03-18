@@ -13,7 +13,6 @@
       padding: 20px;
       direction: rtl;
     }
-
     .container {
       max-width: 720px;
       margin: auto;
@@ -22,19 +21,8 @@
       border-radius: 20px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.12);
     }
-
-    h1 {
-      color: #c85a17;
-      font-size: 42px;
-      margin-bottom: 10px;
-    }
-
-    #character {
-      font-size: 32px;
-      margin: 20px 0;
-      color: #2e8b57;
-    }
-
+    h1 { color: #c85a17; font-size: 42px; margin-bottom: 10px; }
+    #character { font-size: 32px; margin: 20px 0; color: #2e8b57; }
     #money-box {
       font-size: 34px;
       background: #ffd700;
@@ -44,14 +32,7 @@
       width: fit-content;
       font-weight: bold;
     }
-
-    #question {
-      font-size: 28px;
-      margin: 35px 0;
-      min-height: 70px;
-      line-height: 1.4;
-    }
-
+    #question { font-size: 28px; margin: 35px 0; min-height: 70px; line-height: 1.4; }
     #items {
       display: flex;
       justify-content: center;
@@ -59,18 +40,8 @@
       flex-wrap: wrap;
       margin: 25px 0;
     }
-
-    .item {
-      text-align: center;
-      font-size: 22px;
-    }
-
-    .item img {
-      width: 110px;
-      height: 110px;
-      object-fit: contain;
-    }
-
+    .item { text-align: center; font-size: 22px; }
+    .item img { width: 110px; height: 110px; object-fit: contain; }
     input {
       font-size: 32px;
       width: 160px;
@@ -80,7 +51,6 @@
       border: 2px solid #4682b4;
       border-radius: 12px;
     }
-
     button {
       font-size: 26px;
       padding: 16px 40px;
@@ -90,47 +60,26 @@
       cursor: pointer;
       color: white;
     }
-
-    #checkBtn {
-      background: #32cd32;
-    }
-
-    #checkBtn:hover {
-      background: #228b22;
-    }
-
-    #nextBtn {
-      background: #1e90ff;
-      display: none;
-    }
-
-    #nextBtn:hover {
-      background: #1873d1;
-    }
-
-    #result {
-      font-size: 30px;
-      font-weight: bold;
-      margin: 25px 0;
-      min-height: 50px;
-    }
-
+    #checkBtn { background: #32cd32; }
+    #checkBtn:hover { background: #228b22; }
+    #nextBtn { background: #1e90ff; display: none; }
+    #nextBtn:hover { background: #1873d1; }
+    #result { font-size: 30px; font-weight: bold; margin: 25px 0; min-height: 50px; }
     .green { color: #006400; }
-    .red   { color: #8b0000; }
+    .red { color: #8b0000; }
   </style>
 </head>
 <body>
 
   <div class="container">
     <h1>مغامرة السوق الجميل</h1>
-    <div id="character">يا بطل! ساعدني نشتري اغراض الحلوة 🛒🍎</div>
+    <div id="character">يا بطل ساعدني نشتري اغراض الحلوة 🛒🍎</div>
     
     <div id="money-box">
-      فلوسي: <span id="money">٥٠</span> قرش
+      فلوسي: <span id="moneyDisplay">٥٠</span> قرش
     </div>
 
     <div id="question"></div>
-
     <div id="items"></div>
 
     <input type="number" id="answer" placeholder="اكتب الجواب" min="0">
@@ -142,20 +91,26 @@
   </div>
 
   <script>
-    let money = ٥٠;
-    let currentAnswer = ٠;
+    // الارقام الحقيقية للحساب (عادية)
+    let money = 50;
+    let currentAnswer = 0;
+
+    // دالة تحول الرقم العادي الى عربي شرقي للعرض
+    function toArabicNum(num) {
+      const arabicDigits = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+      return num.toString().split('').map(d => arabicDigits[parseInt(d)]).join('');
+    }
 
     const itemsData = [
-      {name: "موز",     price: ١٢, img: "https://img.icons8.com/emoji/96/banana-emoji.png"},
-      {name: "تفاح",    price: ١٥, img: "https://img.icons8.com/emoji/96/red-apple-emoji.png"},
-      {name: "برتقال",  price: ١٠, img: "https://img.icons8.com/emoji/96/tangerine-emoji.png"},
-      {name: "حلوى",    price: ٨,  img: "https://img.icons8.com/emoji/96/candy-emoji.png"},
-      {name: "كرة",     price: ٢٥, img: "https://img.icons8.com/emoji/96/soccer-ball-emoji.png"},
-      {name: "دجاجة",   price: ٢٨, img: "https://img.icons8.com/emoji/96/chicken-emoji.png"}
+      {name: "موز",     price: 12, img: "https://img.icons8.com/emoji/96/banana-emoji.png"},
+      {name: "تفاح",    price: 15, img: "https://img.icons8.com/emoji/96/red-apple-emoji.png"},
+      {name: "برتقال",  price: 10, img: "https://img.icons8.com/emoji/96/tangerine-emoji.png"},
+      {name: "حلوى",    price: 8,  img: "https://img.icons8.com/emoji/96/candy-emoji.png"},
+      {name: "كرة",     price: 25, img: "https://img.icons8.com/emoji/96/soccer-ball-emoji.png"}
     ];
 
-    function updateMoney() {
-      document.getElementById("money").innerText = money;
+    function updateMoneyDisplay() {
+      document.getElementById("moneyDisplay").innerText = toArabicNum(money);
     }
 
     function generateQuestion() {
@@ -164,51 +119,54 @@
       document.getElementById("answer").value = "";
       document.getElementById("nextBtn").style.display = "none";
 
-      let item1 = itemsData[Math.floor(Math.random() * itemsData.length)];
-      let item2 = itemsData[Math.floor(Math.random() * itemsData.length)];
+      let idx1 = Math.floor(Math.random() * itemsData.length);
+      let idx2 = Math.floor(Math.random() * itemsData.length);
+      while (idx2 === idx1) idx2 = Math.floor(Math.random() * itemsData.length);
 
-      while (item1 === item2) {
-        item2 = itemsData[Math.floor(Math.random() * itemsData.length)];
-      }
+      let item1 = itemsData[idx1];
+      let item2 = itemsData[idx2];
 
       currentAnswer = item1.price + item2.price;
 
       document.getElementById("question").innerHTML = 
-        `اشتريت ${item1.name} بـ \( {item1.price} قرش<br>و \){item2.name} بـ ${item2.price} قرش<br>كم تدفع للبائع؟`;
+        `اشتريت ${item1.name} بـ ${toArabicNum(item1.price)} قرش<br>` +
+        `و ${item2.name} بـ ${toArabicNum(item2.price)} قرش<br>` +
+        `كم تدفع للبائع؟`;
 
       let itemsDiv = document.getElementById("items");
       itemsDiv.innerHTML = "";
 
       let div1 = document.createElement("div");
       div1.className = "item";
-      div1.innerHTML = `<img src="\( {item1.img}"><br> \){item1.name} ${item1.price}`;
+      div1.innerHTML = `<img src="\( {item1.img}"><br> \){item1.name} ${toArabicNum(item1.price)}`;
       itemsDiv.appendChild(div1);
 
       let div2 = document.createElement("div");
       div2.className = "item";
-      div2.innerHTML = `<img src="\( {item2.img}"><br> \){item2.name} ${item2.price}`;
+      div2.innerHTML = `<img src="\( {item2.img}"><br> \){item2.name} ${toArabicNum(item2.price)}`;
       itemsDiv.appendChild(div2);
     }
 
     function checkAnswer() {
-      let userAnswer = parseInt(document.getElementById("answer").value);
+      let userInput = document.getElementById("answer").value.trim();
+      let userAnswer = parseInt(userInput);
 
-      if (isNaN(userAnswer)) {
+      if (userInput === "" || isNaN(userAnswer)) {
         document.getElementById("result").innerText = "اكتب رقم يا بطل";
         document.getElementById("result").className = "red";
         return;
       }
 
       if (userAnswer === currentAnswer) {
-        document.getElementById("result").innerText = "صحيح! بارك الله فيك يا بطل 🎉";
+        document.getElementById("result").innerText = "صحيح بارك الله فيك يا بطل 🎉";
         document.getElementById("result").className = "green";
 
         money -= currentAnswer;
-        if (money < ٠) money = ٠;
-        updateMoney();
+        if (money < 0) money = 0;
+        updateMoneyDisplay();
 
-        if (money <= ٠) {
-          document.getElementById("question").innerHTML = "مبروك يا بطل! خلصت الفلوس وحصلت على جائزة كبيرة 🎁🍦";
+        if (money <= 0) {
+          document.getElementById("question").innerHTML = "مبروك يا بطل خلصت الفلوس وحصلت على جائزة كبيرة 🎁🍦";
           document.getElementById("answer").style.display = "none";
           document.getElementById("checkBtn").style.display = "none";
           document.getElementById("nextBtn").style.display = "none";
@@ -222,11 +180,11 @@
     }
 
     function nextQuestion() {
-      if (money > ٠) generateQuestion();
+      if (money > 0) generateQuestion();
     }
 
     // بداية اللعبة
-    updateMoney();
+    updateMoneyDisplay();
     generateQuestion();
   </script>
 
